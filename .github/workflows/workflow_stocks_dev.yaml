@@ -1,0 +1,157 @@
+name: 'Stock exchange monitor dev'
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+  # Workflow needs to be started manually
+  workflow_dispatch:
+    inputs:
+      runtime_env:
+        description: 'Stock exchange runtime env:'
+        required: true
+        default: 'Azure-Function'
+        type: choice
+        options:
+          - Azure-Function
+          - GC-Function
+      site_id:
+        description: 'Site name:'
+        required: false
+        type: string
+        default: 'None'
+
+env:
+  AZ_FUNC_ARTIFACT: 'fa-py-code-artifact'
+  AZ_FUNC_APP: 'func-app-v2-dev' # set this to your function app name
+  AZ_FUNC_APP_PROJECT_PATH: 'source/az'
+  AZ_RG: 'RG-TF-DEV-FUNC'
+  GC_FUNC_APP_PROJECT_PATH: 'source/gc'
+
+# Add "id-token" with the intended permissions (Azure/GC Authentication)
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  deploy_container:
+    name: '[Github-workflow]Deploy conitainer to Azure Container Apps'
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v5
+
+    #   - name: 'Azure Function: SD-WAN config generator'
+    #     if: ${{ github.event.inputs.runtime_env == 'Azure-Function' && github.event.inputs.site_id != 'None' && github.event.inputs.site_id != '' }}
+    #     run: |
+    #       curl 'https://func-app-v2-dev.azurewebsites.net/api/cfg?site_id=${{ github.event.inputs.site_id }}'
+
+  # Below job was added after the function app was created
+  az_python_code:
+    name: 'Stock App deployment package'
+    # if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v5
+
+    #   - name: 'Create AZ artifact folder'
+    #     run: |
+    #       mkdir art_source
+    #       cp source/*.* art_source/
+    #       cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* art_source/
+
+    #   - name: 'Upload artifact'
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: ${{ env.AZ_FUNC_ARTIFACT }}
+    #       path: |
+    #         art_source
+
+
+# Host Azure Functions on ACA (Azure Container Apps)
+# https://techcommunity.microsoft.com/blog/appsonazureblog/announcing-native-azure-functions-support-in-azure-container-apps/4414039
+  az_function_deploy:
+    name: 'Azure Function App Deploy'
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    needs: az_python_code
+    # environment: development
+    permissions:
+      id-token: write # Required for OIDC
+      contents: read  # Required for actions/checkout
+    steps:
+    #   - name: 'Download artifact'
+    #     uses: actions/download-artifact@v4
+    #     with:
+    #       name: ${{ env.AZ_FUNC_ARTIFACT }}
+
+    #   - name: 'Display structure of downloaded files'
+    #     run: ls -la
+
+    #   - name: 'Azure CLI login'
+    #     uses: azure/login@v2
+    #     with:
+    #       client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #       tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #       subscription-id: ${{ secrets.AZURE_SUB_ID }}
+
+    #   - name: 'Azure Function App config'
+    #     uses: azure/cli@v2
+    #     with:
+    #       azcliversion: latest
+    #       inlineScript: |
+    #         az functionapp config appsettings set -g ${{ env.AZ_RG }} -n ${{ env.AZ_FUNC_APP }} --settings \
+    #           SMTP_SERVER="${{ secrets.SMTP_SERVER }}" \
+    #           EMAIL_SENDER="${{ secrets.EMAIL_SENDER }}" \
+    #           EMAIL_SENDER_PASSWORD="${{ secrets.EMAIL_SENDER_PASSWORD }}" \
+    #           EMAIL_RECEIVER="${{ secrets.EMAIL_RECEIVER }}" \
+    #           MANAGER_URL="${{ secrets.MANAGER_URL }}" \
+    #           MANAGER_LOGIN="${{ secrets.MANAGER_LOGIN }}" \
+    #           MANAGER_PASS="${{ secrets.MANAGER_PASS }}" \
+    #           KEY_VAULT_URL="${{ secrets.KEY_VAULT_URL }}" \
+    #           MI_CLIENT_ID="${{ secrets.MI_CLIENT_ID }}"
+
+    #   - name: 'Azure Function App deployment'
+    #     uses: azure/functions-action@v1
+    #     id: deploy-to-function-app
+    #     with:
+    #       app-name: ${{ env.AZ_FUNC_APP }}
+    #       # Do not use below options for Flex Consumption plan
+    #       # scm-do-build-during-deployment: true
+    #       # enable-oryx-build: true
+    #       remote-build: true
+
+    #   - name: Log in to Azure
+    #     uses: azure/login@v2
+    #     with:
+    #       client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #       tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #       subscription-id: ${{ secrets.AZURE_SUB_ID }}
+
+    #   - name: Deploy public GHCR image to Container App
+    #     uses: azure/container-apps-deploy-action@v1
+    #     with:
+    #       containerAppName: my-container-app
+    #       resourceGroup: my-container-app-rg
+    #       imageToDeploy: ghcr.io/<YOUR-GITHUB-USERNAME>/myimage:latest
+    #       registryServer: ghcr.io
+
+    #   - name: 'Deploy to Azure Container Apps'
+    #     run: |
+    #       az containerapp create \
+    #         --resource-group XXX \
+    #         --name XXX  \
+    #         --environment XXX \
+    #         --image pytpythoncontainer:latest \
+    #         --ingress external \
+    #         --target-port 80 \
+    #         --kind functionapp \
+    #         --query properties.outputs.fqdn
+

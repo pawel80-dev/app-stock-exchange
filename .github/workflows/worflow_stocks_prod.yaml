@@ -1,0 +1,17 @@
+name: 'Stock exchange monitor prod'
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  cfg_gen_prod:
+    name: 'Stock exchange monitor prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v5
+
+      - name: Main branch - Prod info
+        run: echo "Lack of resources to build stock exchange monitor PROD environment..."
