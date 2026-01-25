@@ -55,25 +55,25 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUB_ID }}
 
       # The action uses the Dockerfile in appSourcePath to build the container image
-      - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          appSourcePath: ${{ github.workspace }}/source
-          acrName: myregistry
-          containerAppName: my-container-app
-          resourceGroup: RG-DEV-CONTAINER-APP
+    #   - name: Build and deploy Container App
+    #     uses: azure/container-apps-deploy-action@v1
+    #     with:
+    #       appSourcePath: ${{ github.workspace }}/source
+    #       acrName: myregistry
+    #       containerAppName: my-container-app
+    #       resourceGroup: RG-DEV-CONTAINER-APP
 
-    #   - name: 'Deploy to Azure Container Apps'
-    #     run: |
-    #       az containerapp create \
-    #         --resource-group XXX \
-    #         --name XXX  \
-    #         --environment XXX \
-    #         --image pytpythoncontainer:latest \
-    #         --ingress external \
-    #         --target-port 80 \
-    #         --kind functionapp \
-    #         --query properties.outputs.fqdn
+      - name: 'Deploy to Azure Container Apps'
+        run: |
+          az containerapp create \
+            --resource-group RG-DEV-CONTAINER-APP \
+            --name stock-container-app  \
+            --environment DEV \
+            --image pytpythoncontainer:latest \
+            --ingress external \
+            --target-port 80 \
+            --kind functionapp \
+            --query properties.outputs.fqdn
 
 
   # Below job was added after the function app was created
