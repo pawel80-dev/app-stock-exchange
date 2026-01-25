@@ -37,7 +37,7 @@ permissions:
 jobs:
   # Function Container App
   deploy_container:
-    name: '[Github-workflow]Deploy conitainer to Azure Container Apps'
+    name: '[Github-workflow]Deploy container to Azure Container Apps'
     if: ${{ github.event_name == 'workflow_dispatch' }}
     # runs-on: self-hosted
     runs-on: ubuntu-latest
@@ -54,10 +54,14 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUB_ID }}
 
-    #   - name: 'Azure Function: SD-WAN config generator'
-    #     if: ${{ github.event.inputs.runtime_env == 'Azure-Function' && github.event.inputs.site_id != 'None' && github.event.inputs.site_id != '' }}
-    #     run: |
-    #       curl 'https://func-app-v2-dev.azurewebsites.net/api/cfg?site_id=${{ github.event.inputs.site_id }}'
+      # The action uses the Dockerfile in appSourcePath to build the container image
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }}/source
+          acrName: myregistry
+          containerAppName: my-container-app
+          resourceGroup: my-rg
 
   # Below job was added after the function app was created
   az_python_code:
