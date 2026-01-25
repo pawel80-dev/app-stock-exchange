@@ -42,6 +42,9 @@ jobs:
     # runs-on: self-hosted
     runs-on: ubuntu-latest
     environment: development # needed for OIDC (EntraID)
+    permissions:
+      id-token: write # Required for OIDC
+      contents: read # Required for actions/checkout
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
