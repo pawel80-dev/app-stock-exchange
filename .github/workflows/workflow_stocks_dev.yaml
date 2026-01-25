@@ -72,8 +72,8 @@ jobs:
             --image pytpythoncontainer:latest \
             --ingress external \
             --target-port 80 \
-            --kind functionapp \
-            --query properties.outputs.fqdn
+            --kind functionapp
+            # --query properties.outputs.fqdn
 
 
   # Below job was added after the function app was created
