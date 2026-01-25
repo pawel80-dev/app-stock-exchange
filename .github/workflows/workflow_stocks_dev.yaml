@@ -41,6 +41,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' }}
     # runs-on: self-hosted
     runs-on: ubuntu-latest
+    environment: development # needed for OIDC (EntraID)
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
@@ -48,7 +49,7 @@ jobs:
       - name: Log in to Azure
         uses: azure/login@v2
         with:
-          # for CLIENT_ID check EntraID App registrations
+          # for CLIENT_ID check EntraID App registrations (Certificate & secrets)
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUB_ID }}
