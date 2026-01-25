@@ -29,12 +29,13 @@ env:
   AZ_RG: 'RG-TF-DEV-FUNC'
   GC_FUNC_APP_PROJECT_PATH: 'source/gc'
 
-# Add "id-token" with the intended permissions (Azure/GC Authentication)
+# In GitHub workflow, you should set permissions: with id-token: write at workflow level or job level 
 permissions:
   contents: 'read'
   id-token: 'write'
 
 jobs:
+  # Function Container App
   deploy_container:
     name: '[Github-workflow]Deploy conitainer to Azure Container Apps'
     if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -43,6 +44,14 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          # for CLIENT_ID check EntraID App registrations
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUB_ID }}
 
     #   - name: 'Azure Function: SD-WAN config generator'
     #     if: ${{ github.event.inputs.runtime_env == 'Azure-Function' && github.event.inputs.site_id != 'None' && github.event.inputs.site_id != '' }}
