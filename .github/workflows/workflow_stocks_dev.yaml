@@ -31,8 +31,8 @@ env:
 
 # In GitHub workflow, you should set permissions: with id-token: write at workflow level or job level 
 permissions:
-  contents: 'read'
-  id-token: 'write'
+  contents: read  # Required for actions/checkout
+  id-token: write # Required for OIDC
 
 jobs:
   # Function Container App
@@ -42,9 +42,6 @@ jobs:
     # runs-on: self-hosted
     runs-on: ubuntu-latest
     environment: development # needed for OIDC (EntraID)
-    # permissions:
-    #   id-token: write # Required for OIDC
-    #   contents: read # Required for actions/checkout
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
