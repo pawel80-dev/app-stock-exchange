@@ -61,7 +61,20 @@ jobs:
           appSourcePath: ${{ github.workspace }}/source
           acrName: myregistry
           containerAppName: my-container-app
-          resourceGroup: my-rg
+          resourceGroup: RG-DEV-CONTAINER-APP
+
+    #   - name: 'Deploy to Azure Container Apps'
+    #     run: |
+    #       az containerapp create \
+    #         --resource-group XXX \
+    #         --name XXX  \
+    #         --environment XXX \
+    #         --image pytpythoncontainer:latest \
+    #         --ingress external \
+    #         --target-port 80 \
+    #         --kind functionapp \
+    #         --query properties.outputs.fqdn
+
 
   # Below job was added after the function app was created
   az_python_code:
@@ -73,6 +86,7 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
+        
 
     #   - name: 'Create AZ artifact folder'
     #     run: |
@@ -157,15 +171,4 @@ jobs:
     #       imageToDeploy: ghcr.io/<YOUR-GITHUB-USERNAME>/myimage:latest
     #       registryServer: ghcr.io
 
-    #   - name: 'Deploy to Azure Container Apps'
-    #     run: |
-    #       az containerapp create \
-    #         --resource-group XXX \
-    #         --name XXX  \
-    #         --environment XXX \
-    #         --image pytpythoncontainer:latest \
-    #         --ingress external \
-    #         --target-port 80 \
-    #         --kind functionapp \
-    #         --query properties.outputs.fqdn
 
