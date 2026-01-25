@@ -76,16 +76,16 @@ jobs:
 
 # Host Azure Functions on ACA (Azure Container Apps)
 # https://techcommunity.microsoft.com/blog/appsonazureblog/announcing-native-azure-functions-support-in-azure-container-apps/4414039
-  az_function_deploy:
-    name: 'Azure Function App Deploy'
-    if: ${{ github.event_name != 'workflow_dispatch' }}
-    # runs-on: self-hosted
-    runs-on: ubuntu-latest
-    needs: az_python_code
-    # environment: development
-    permissions:
-      id-token: write # Required for OIDC
-      contents: read  # Required for actions/checkout
+#   az_function_deploy:
+#     name: 'Azure Function App Deploy'
+#     if: ${{ github.event_name != 'workflow_dispatch' }}
+#     # runs-on: self-hosted
+#     runs-on: ubuntu-latest
+#     needs: az_python_code
+#     # environment: development
+#     permissions:
+#       id-token: write # Required for OIDC
+#       contents: read  # Required for actions/checkout
     # steps:
     #   - name: 'Download artifact'
     #     uses: actions/download-artifact@v4
