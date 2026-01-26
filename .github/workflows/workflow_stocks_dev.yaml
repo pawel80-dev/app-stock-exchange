@@ -66,7 +66,7 @@ jobs:
             az containerapp create \
               --name stock-container-app \
               --resource-group RG-DEV-CONTAINER-APP \
-              --image my-app:v1.0 \
+              --image mcr.microsoft.com/k8se/quickstart-functions:latest \
               --environment MyContainerappEnv \
               --kind functionapp
         #   az containerapp create \
