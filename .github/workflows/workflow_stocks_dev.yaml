@@ -16,11 +16,6 @@ on:
         options:
           - Azure-Function
           - GC-Function
-      site_id:
-        description: 'Site name:'
-        required: false
-        type: string
-        default: 'None'
 
 env:
   AZ_FUNC_ARTIFACT: 'fa-py-code-artifact'
@@ -37,7 +32,7 @@ permissions:
 jobs:
   # Function Container App
   deploy_container:
-    name: '[Github-workflow]Deploy container to Azure Container Apps'
+    name: 'Deploy container to Azure Container Apps'
     if: ${{ github.event_name == 'workflow_dispatch' }}
     # runs-on: self-hosted
     runs-on: ubuntu-latest
@@ -66,8 +61,8 @@ jobs:
       - name: 'Deploy to Azure Container Apps'
         run: |
           az containerapp create \
-            -n my-containerapp 
-            -g MyResourceGroup \
+            --name stock-container-app \
+            --resource-group RG-DEV-CONTAINER-APP \
             --image my-app:v1.0 \
             --environment MyContainerappEnv \
             --kind functionapp
