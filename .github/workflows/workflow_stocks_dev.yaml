@@ -66,14 +66,21 @@ jobs:
       - name: 'Deploy to Azure Container Apps'
         run: |
           az containerapp create \
-            --resource-group RG-DEV-CONTAINER-APP \
-            --name stock-container-app  \
-            --environment DEV \
-            --image pytpythoncontainer:latest \
-            --ingress external \
-            --target-port 80 \
+            -n my-containerapp 
+            -g MyResourceGroup \
+            --image my-app:v1.0 \
+            --environment MyContainerappEnv \
             --kind functionapp
-            # --query properties.outputs.fqdn
+        #   az containerapp create \
+        #     --resource-group RG-DEV-CONTAINER-APP \
+        #     --name stock-container-app  \
+        #     --environment DEV \
+        #     --image pytpythoncontainer:latest \
+        #     --ingress external \
+        #     --target-port 80 \
+        #     --kind functionapp
+        #     # --query properties.outputs.fqdn
+
 
 
   # Below job was added after the function app was created
