@@ -59,13 +59,16 @@ jobs:
     #       resourceGroup: RG-DEV-CONTAINER-APP
 
       - name: 'Deploy to Azure Container Apps'
-        run: |
-          az containerapp create \
-            --name stock-container-app \
-            --resource-group RG-DEV-CONTAINER-APP \
-            --image my-app:v1.0 \
-            --environment MyContainerappEnv \
-            --kind functionapp
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az containerapp create \
+              --name stock-container-app \
+              --resource-group RG-DEV-CONTAINER-APP \
+              --image my-app:v1.0 \
+              --environment MyContainerappEnv \
+              --kind functionapp
         #   az containerapp create \
         #     --resource-group RG-DEV-CONTAINER-APP \
         #     --name stock-container-app  \
