@@ -22,7 +22,6 @@ env:
   AZ_FUNC_APP: 'func-app-v2-dev' # set this to your function app name
   AZ_FUNC_APP_PROJECT_PATH: 'source/az'
   AZ_RG: 'RG-TF-DEV-FUNC'
-  GC_FUNC_APP_PROJECT_PATH: 'source/gc'
 
 # In GitHub workflow, you should set permissions: with id-token: write at workflow level or job level 
 permissions:
@@ -30,24 +29,24 @@ permissions:
   id-token: write # Required for OIDC
 
 jobs:
-  # Function Container App
-  deploy_container:
-    name: 'Deploy container to Azure Container Apps'
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    # runs-on: self-hosted
-    runs-on: ubuntu-latest
-    environment: development # needed for OIDC (EntraID)
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v5
+#   # Function Container App
+#   deploy_container:
+#     name: 'Deploy container to Azure Container Apps'
+#     if: ${{ github.event_name == 'workflow_dispatch' }}
+#     # runs-on: self-hosted
+#     runs-on: ubuntu-latest
+#     environment: development # needed for OIDC (EntraID)
+#     steps:
+#       - name: 'Checkout repository'
+#         uses: actions/checkout@v5
 
-      - name: Log in to Azure
-        uses: azure/login@v2
-        with:
-          # for CLIENT_ID check EntraID App registrations (Certificate & secrets)
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUB_ID }}
+#       - name: Log in to Azure
+#         uses: azure/login@v2
+#         with:
+#           # for CLIENT_ID check EntraID App registrations (Certificate & secrets)
+#           client-id: ${{ secrets.AZURE_CLIENT_ID }}
+#           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+#           subscription-id: ${{ secrets.AZURE_SUB_ID }}
 
       # The action uses the Dockerfile in appSourcePath to build the container image
     #   - name: Build and deploy Container App
@@ -58,17 +57,18 @@ jobs:
     #       containerAppName: my-container-app
     #       resourceGroup: RG-DEV-CONTAINER-APP
 
-      - name: 'Deploy to Azure Container Apps'
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az containerapp create \
-              --name stock-container-app \
-              --resource-group RG-DEV-CONTAINER-APP \
-              --image mcr.microsoft.com/k8se/quickstart-functions:latest \
-              --environment MyContainerappEnv \
-              --kind functionapp
+    #   - name: 'Deploy to Azure Container Apps'
+    #     uses: azure/cli@v2
+    #     with:
+    #       azcliversion: latest
+    #       inlineScript: |
+    #         az containerapp create \
+    #           --name stock-container-app \
+    #           --resource-group RG-DEV-CONTAINER-APP \
+    #           --image mcr.microsoft.com/k8se/quickstart-functions:latest \
+    #           --environment MyContainerappEnv \
+    #           --kind functionapp
+
         #   az containerapp create \
         #     --resource-group RG-DEV-CONTAINER-APP \
         #     --name stock-container-app  \
@@ -78,6 +78,7 @@ jobs:
         #     --target-port 80 \
         #     --kind functionapp
         #     # --query properties.outputs.fqdn
+
 
 
 
@@ -91,21 +92,70 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v5
-        
 
-    #   - name: 'Create AZ artifact folder'
-    #     run: |
-    #       mkdir art_source
-    #       cp source/*.* art_source/
-    #       cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* art_source/
+      - name: 'Create AZ artifact folder'
+        run: |
+          mkdir artifact_source
+          # cp source/*.* artifact_source/
+          cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
 
-    #   - name: 'Upload artifact'
-    #     uses: actions/upload-artifact@v4
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.AZ_FUNC_ARTIFACT }}
+          path: |
+            artifact_source
+
+  az_function_deploy:
+    name: 'Azure Function App Deploy'
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    needs: az_python_code
+    environment: development
+    # permissions:
+    #   id-token: write # Required for OIDC
+    #   contents: read # Required for actions/checkout
+    steps:
+      - name: 'Download artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.AZ_FUNC_ARTIFACT }}
+
+      - name: 'Display structure of downloaded files'
+        run: ls -la
+
+      - name: 'Azure CLI login'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUB_ID }}
+
+      # Key Vault access is done via Managed Identity
+    #   - name: 'Azure Function App config'
+    #     uses: azure/cli@v2
     #     with:
-    #       name: ${{ env.AZ_FUNC_ARTIFACT }}
-    #       path: |
-    #         art_source
+    #       azcliversion: latest
+    #       inlineScript: |
+    #         az functionapp config appsettings set -g ${{ env.AZ_RG }} -n ${{ env.AZ_FUNC_APP }} --settings \
+    #           SMTP_SERVER="${{ secrets.SMTP_SERVER }}" \
+    #           EMAIL_SENDER="${{ secrets.EMAIL_SENDER }}" \
+    #           EMAIL_SENDER_PASSWORD="${{ secrets.EMAIL_SENDER_PASSWORD }}" \
+    #           EMAIL_RECEIVER="${{ secrets.EMAIL_RECEIVER }}" \
+    #           MANAGER_URL="${{ secrets.MANAGER_URL }}" \
+    #           MANAGER_LOGIN="${{ secrets.MANAGER_LOGIN }}" \
+    #           MANAGER_PASS="${{ secrets.MANAGER_PASS }}" \
+    #           KEY_VAULT_URL="${{ secrets.KEY_VAULT_URL }}" \
+    #           MI_CLIENT_ID="${{ secrets.MI_CLIENT_ID }}"
 
+      # Flex Consumption plan, remote-build: true is a MUST!
+      - name: 'Azure Function App deployment'
+        uses: azure/functions-action@v1
+        id: deploy-to-function-app
+        with:
+          app-name: ${{ env.AZ_FUNC_APP }}
+          remote-build: true
 
 # Host Azure Functions on ACA (Azure Container Apps)
 # https://techcommunity.microsoft.com/blog/appsonazureblog/announcing-native-azure-functions-support-in-azure-container-apps/4414039
@@ -175,5 +225,3 @@ jobs:
     #       resourceGroup: my-container-app-rg
     #       imageToDeploy: ghcr.io/<YOUR-GITHUB-USERNAME>/myimage:latest
     #       registryServer: ghcr.io
-
-
