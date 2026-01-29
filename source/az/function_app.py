@@ -19,3 +19,12 @@ def get_basic(req: func.HttpRequest) -> str:
     user = req.params.get("user")
 
     return f"Hello, {user}!"
+
+
+# route parameter is changed: api/{functionname} to api/message
+@app.function_name(name="HttpTrigger-api")
+@app.route(route="message", auth_level=func.AuthLevel.ANONYMOUS)
+def get_basic(req: func.HttpRequest) -> str:
+    logger.info("AZ-FUNC TEST API message.")
+
+    return "Hello, from the stocks API!"

@@ -6,4 +6,5 @@
 Simple app for retrive the stock exchange data.  
 
 Tools:
-- Azure Container Registry
+- Azure Function -> Azure Container Registry
+- Azure Static Web App
