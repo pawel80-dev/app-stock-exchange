@@ -8,17 +8,36 @@
 </head>
 <body>
  <!-- <h1>Forza 3, Azure!</h1> -->
-     <main>
+    <main>
     <h1>Vanilla JavaScript App</h1>
     <p>Loading content from the API: <b id="name">...</b></p>
     </main>
 
-     <script>
+    <script>
     (async function() {
         const { text } = await( await fetch(`/api/message`)).json();
         document.querySelector('#name').textContent = text;
     }());
     </script>
+
+    <table>
+      <tr>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+      </tr>
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Maria Anders</td>
+        <td>Germany</td>
+      </tr>
+      <tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Francisco Chang</td>
+        <td>Mexico</td>
+      </tr>
+    </table>
+
 </body>
 
 </html>
