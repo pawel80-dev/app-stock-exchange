@@ -11,19 +11,10 @@ logging.basicConfig(level=logging.INFO)
 
 app = func.FunctionApp()
 
-# route parameter is changed: api/{functionname} to api/stocks?user=YourName
-# https://functionAppName.azurewebsites.net/api/stocks?user=YourName
-# @app.function_name(name="HttpTrigger-stocks-api")
-# @app.route(route="stocks", auth_level=func.AuthLevel.ANONYMOUS)
-# def get_basic(req: func.HttpRequest) -> str:
-#     logger.info("AZ-FUNC app-stock-exchange.")
-#     user = req.params.get("user")
-
-#     return f"Hello, {user}!"
-
-
-# route parameter is changed: api/{functionname} to api/stocks?list=YourList
+# route: api/stocks?list=YourList
+# route: api/stocks?user=Username
 # https://functionAppName.azurewebsites.net/api/stocks?list=YourList
+# https://functionAppName.azurewebsites.net/api/stocks?user=YourName
 @app.function_name(name="HttpTrigger-stocks")
 @app.route(route="stocks", auth_level=func.AuthLevel.ANONYMOUS)
 def get_basic(req: func.HttpRequest) -> str:
@@ -35,6 +26,8 @@ def get_basic(req: func.HttpRequest) -> str:
         return f"Hello, {user}!"
     if list:
         return f"Hello, {list}!"
+    else:
+        return "Ciao!"
 
 
 # route parameter is changed: api/{functionname} to api/message
