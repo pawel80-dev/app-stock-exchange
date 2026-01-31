@@ -26,8 +26,11 @@ def get_gpw_stock(symbol: str) -> dict:
 
 
 def main() -> None:
-    stocks = ["CDR.WA", "PKO.WA", "KGH.WA"]
-    for symbol in stocks:
+    stocks_games = ["MSFT", "SONY", "EA", "TTWO", "U", "UBI.PA"]
+    stocks_pl = ["PKN.WA", "PKO.WA", "KGH.WA", "PZU.WA", "SPL.WA", "PEO.WA", "MBK.WA",
+              "DNP.WA", "LPP.WA", "ALE.WA", "CDR.WA", "PGE.WA", "ZAB.WA", "BDX.WA",
+              "PCO.WA", "ALR.WA", "OPL.WA", "KTY.WA", "KRU.WA", "CCC.WA"]
+    for symbol in stocks_games:
         data = get_gpw_stock(symbol)
         print(data)
 
