@@ -8,3 +8,4 @@ Simple app for retrive the stock exchange data.
 Tools:
 - Azure Function -> Azure Container Registry
 - Azure Static Web App
+- Single Page App (SPA) ?
