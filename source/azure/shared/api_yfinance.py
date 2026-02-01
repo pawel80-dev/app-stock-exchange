@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def get_gpw_stock(symbol: str) -> dict:
+def get_stock(symbol: str) -> dict:
     try:
         stock = yf.Ticker(symbol)
         # historical_data = stock.history(start="2026-01-01", end="2026-01-23", interval="1d")
@@ -31,7 +31,7 @@ def main() -> None:
               "DNP.WA", "LPP.WA", "ALE.WA", "CDR.WA", "PGE.WA", "ZAB.WA", "BDX.WA",
               "PCO.WA", "ALR.WA", "OPL.WA", "KTY.WA", "KRU.WA", "CCC.WA"]
     for symbol in stocks_games:
-        data = get_gpw_stock(symbol)
+        data = get_stock(symbol)
         print(data)
 
 

@@ -96,7 +96,7 @@ jobs:
       - name: 'Create AZ artifact folder'
         run: |
           mkdir artifact_source
-          # cp source/python/*.* artifact_source/
+          # cp source/shared/*.* artifact_source/
           cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
 
       - name: 'Upload artifact'
