@@ -97,8 +97,8 @@ jobs:
         run: |
           mkdir artifact_source
           # cp source/shared/*.* artifact_source/
-          # cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
-          cp -r ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
+          cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
+          cp -r ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/shared artifact_source/shared/
 
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v4
