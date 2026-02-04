@@ -37,12 +37,14 @@ Find @id:terminal.integrated.env.windows
 Select which config you would like to change - User’s or Worspace (recommended)  
 For the setting Terminal › Integrated › Env: Windows, click the **Edit in settings.json** link  
 Define your environment variables here:  
-```{
+```
+{
     "terminal.integrated.env.windows": {
         "MY_VARIABLE1": "",
         "MY_VARIABLE2": ""
     }
-}```
+}
+```
 
 <br>
 
