@@ -15,7 +15,7 @@ api_key = os.environ["TWELVEDATA_API_KEY"]
 
 app = func.FunctionApp()
 
-# route: api/stocks?list=YourList
+# route: api/stocks?stock=CompanySymbol
 # route: api/stocks?user=Username
 # https://functionAppName.azurewebsites.net/api/stocks?stock=CompanySymbol
 # https://functionAppName.azurewebsites.net/api/stocks?user=YourName
@@ -27,11 +27,12 @@ def get_basic(req: func.HttpRequest) -> str:
     user = req.params.get("user")
 
     if user:
-        return f"Hello, {user}!"
+        return f"Ciao {user}, come stai?"
     if stock == "ms":
-        data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
-        return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
-        # return json.dumps(get_stock("MSFT"))
+        # data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
+        # return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
+        data = stock_quote(stocks_api_url, api_key, "MSFT")
+        return data
     else:
         return "Ciao!"
 
