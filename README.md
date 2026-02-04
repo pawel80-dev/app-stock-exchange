@@ -21,6 +21,7 @@ Temporary in a current Powershell session:
 
 Permanently in privilege mode:  
 ```[Environment]::SetEnvironmentVariable('MyVariable', 'Some value', 'Machine')```
+
 Broadcast change to Windows:  
 ```$env:MyVariable = [System.Environment]::GetEnvironmentVariable('MyVariable', 'Machine')```
 
@@ -30,6 +31,7 @@ Remove system variable:
 Display system variables via Powershell:  
 ```Get-ChildItem Env:```
 
+<br>
 
 > [!NOTE]
 >.env File: Best for project-specific secrets shared with other developers (usually requires dotenv package in code).
