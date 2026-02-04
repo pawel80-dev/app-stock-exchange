@@ -15,24 +15,20 @@ Tools:
 - Single Page App (SPA) ?
 
 
-Set environment variable via Powershell code (Windows 11):  
+### Set environment variable via Powershell code (Windows 11):
 Temporary in a current Powershell session:  
-$env:VARIABLE_NAME = "Value"  
+```$env:VARIABLE_NAME = "Value"```
 
-# Permanently in privilege mode
-[Environment]::SetEnvironmentVariable('MyVariable', 'Some value', 'Machine')  
-# Broadcast change to Windows  
-$env:MyVariable = [System.Environment]::GetEnvironmentVariable('MyVariable', 'Machine')  
+Permanently in privilege mode
+```[Environment]::SetEnvironmentVariable('MyVariable', 'Some value', 'Machine')```
+Broadcast change to Windows  
+```$env:MyVariable = [System.Environment]::GetEnvironmentVariable('MyVariable', 'Machine')```
 
 Remove system variable:
-'''
-Remove-Item Env:MyVariable
-'''
+```Remove-Item Env:MyVariable```
 
 Display system variables via Powershell:  
-'''
-Get-ChildItem Env:
-'''
+```Get-ChildItem Env:```
 
 > [!NOTE]
 >.env File: Best for project-specific secrets shared with other developers (usually requires dotenv package in code).
