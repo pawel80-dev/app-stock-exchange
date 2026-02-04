@@ -15,7 +15,7 @@ Tools:
 - Single Page App (SPA) ?
 
 
-### Set environment variable via Powershell code (Windows 11):
+### Set environment variables via Powershell code (Windows 11):
 Temporary in a current Powershell session:  
 ```$env:VARIABLE_NAME = "Value"```
 
@@ -30,6 +30,19 @@ Remove system variable:
 
 Display system variables via Powershell:  
 ```Get-ChildItem Env:```
+
+### Set environment variables via VSC terminal.integrated.env.windows:
+File -> Preferences -> Settings  
+Find @id:terminal.integrated.env.windows  
+Select which config you would like to change - User’s or Worspace (recommended)  
+For the setting Terminal › Integrated › Env: Windows, click the **Edit in settings.json** link  
+Define your environment variables here:  
+```{
+    "terminal.integrated.env.windows": {
+        "MY_VARIABLE1": "",
+        "MY_VARIABLE2": ""
+    }
+}```
 
 <br>
 
