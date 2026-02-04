@@ -2,30 +2,35 @@ import logging
 import json
 import os
 import azure.functions as func
+from shared.api_twelvedata import stock_quote
 
 # logger will return the source module name
 logger = logging.getLogger(__name__)
 # display logging info level
 logging.basicConfig(level=logging.INFO)
 
+stocks_api_url = "https://api.twelvedata.com"
+api_key = os.environ["TWELVEDATA_API_KEY"]
+
 
 app = func.FunctionApp()
 
 # route: api/stocks?list=YourList
 # route: api/stocks?user=Username
-# https://functionAppName.azurewebsites.net/api/stocks?list=YourList
+# https://functionAppName.azurewebsites.net/api/stocks?stock=CompanySymbol
 # https://functionAppName.azurewebsites.net/api/stocks?user=YourName
 @app.function_name(name="HttpTrigger-stocks")
 @app.route(route="stocks", auth_level=func.AuthLevel.ANONYMOUS)
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC app-stock-exchange.")
-    list = req.params.get("list")
+    stock = req.params.get("stock")
     user = req.params.get("user")
 
     if user:
         return f"Hello, {user}!"
-    if list == "games":
-        return "OK game list."
+    if stock == "ms":
+        data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
+        return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
         # return json.dumps(get_stock("MSFT"))
     else:
         return "Ciao!"

@@ -61,6 +61,27 @@ def stock_quote(stock_url: str, api_key: str, symbol: str) -> str:
         logger.info(response.json()["message"])
 
 
+def time_series(stock_url: str, api_key: str, symbol: str, interval: str, start_date: str, end_date: str) -> str:
+    api = f"/time_series?symbol={symbol}&interval={interval}&start_date={start_date}&end_date={end_date}"
+    url = stock_url + api
+    headers = {
+        "Authorization": f"apikey {api_key}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(
+        url=url,
+        headers=headers,
+        verify=False
+    )
+    # if response.json()["code"] == 200:
+    if response.status_code == 200:
+        logger.info(f"Time series data for {symbol} successfully retrieved.")
+        return json.dumps(response.json(), indent=4)
+    else:
+        logger.info(f"Failed to retrieved time series data for {symbol}: {response.json()["code"]}")
+        logger.info(response.json()["message"])
+
+
 # TODO:
 # API calls error - how to solve 200, 400 issue?
 
@@ -71,8 +92,12 @@ def main() -> None:
     # for stock in stock_list:
     #     data = stock_quote(stocks_api_url, api_key, stock)
     #     print(data)
-    data_apple = json.loads(stock_quote(stocks_api_url, api_key, "AAPL"))
-    print(f"Company name: {data_apple["name"]}, Price: {data_apple["close"]} {data_apple["currency"]}")
+    data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
+    # print(data)
+    print(f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}")
+    # time_series_data = json.loads(time_series(stocks_api_url, api_key, "MSFT", "1month"))
+    # time_series_data = time_series(stocks_api_url, api_key, "MSFT", "1month", "2020-01-01", "2026-01-01")
+    # print(time_series_data)
 
 
 if __name__ == "__main__":

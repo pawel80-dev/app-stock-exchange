@@ -5,14 +5,14 @@
 
 Simple app for retrive the stock exchange data.  
 
-Issues:
-- Failed to containerized Azure Function (no Selenium): --kind functionapp
-- Failed to use yfinance API in Azure Function, Google protobuf version mismatch: remove module cache for google._upb but failed with 'google', Language Worker Process exited
-
 Tools:
 - Azure Function (not implemented: Azure Container Registry)
 - Azure Static Web App
 - Single Page App (SPA) ?
+
+Issues:
+- Failed to containerized Azure Function (no Selenium): --kind functionapp
+- Failed to use yfinance API in Azure Function, Google protobuf version mismatch: remove module cache for google._upb but failed with 'google', Language Worker Process exited
 
 
 ### Set environment variables via Powershell code (Windows 11):
