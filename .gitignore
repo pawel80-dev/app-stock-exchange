@@ -138,6 +138,8 @@ celerybeat.pid
 
 # Environments
 .env
+settings.json
+.vscode
 .venv
 env/
 venv/
@@ -227,6 +229,10 @@ terraform.rc
 ########################## Azurite and blob ###########################
 __azurite*
 __blob*
+__queuestorage*
 
 ############################# Excel temp ##############################
 ~$*.xlsx
+
+############################# Local data ##############################
+# local.settings.json

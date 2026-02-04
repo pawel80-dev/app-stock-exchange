@@ -1,6 +1,8 @@
 import requests
 import logging
 import json
+import os
+import time
 from urllib3.exceptions import InsecureRequestWarning
 
 # logger will return the source module name
@@ -97,10 +99,14 @@ def daily(stock_url: str, company_symbol: str, api_key: str) -> str:
 
 def main() -> None:
     stocks_api_url = "https://www.alphavantage.co"
-    api_key = "HHO8U5YYELTFNJSJ"
-    data_ibm = stocks_company(stocks_api_url, "CDR.WA", api_key) # IBM, AAPL, MSFT
+    api_key = os.environ["ALPHA_VANTAGE_API_KEY"]
+    stock_list = ["IBM", "AAPL", "MSFT", "SONY", "EA", "TTWO", "U"]
+    for stock in stock_list:
+        data = json.loads(stocks_company(stocks_api_url, stock, api_key))
+        print(data)
+        # print(f"Data for {stock}: {data["Symbol"]}")
+        # time.sleep(1)
     # data_ibm_daily = daily(stocks_api_url, "CDR.WA", api_key)
-    print(data_ibm)
 
 
 if __name__ == "__main__":

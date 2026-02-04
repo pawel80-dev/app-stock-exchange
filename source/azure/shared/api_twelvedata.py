@@ -1,6 +1,7 @@
 import requests
 import logging
 import json
+import os
 from urllib3.exceptions import InsecureRequestWarning
 
 # logger will return the source module name
@@ -51,8 +52,8 @@ def stock_quote(stock_url: str, api_key: str, symbol: str) -> str:
         headers=headers,
         verify=False
     )
-    if response.json()["code"] == 200:
-    # if response.status_code == 200:
+    # if response.json()["code"] == 200:
+    if response.status_code == 200:
         logger.info(f"Stock {symbol} data successfully retrieved.")
         return json.dumps(response.json(), indent=4)
     else:
@@ -65,9 +66,13 @@ def stock_quote(stock_url: str, api_key: str, symbol: str) -> str:
 
 def main() -> None:
     stocks_api_url = "https://api.twelvedata.com"
-    api_key = "demo"
-    data_apple = stock_quote(stocks_api_url, api_key, "AAPL")
-    print(data_apple)
+    api_key = os.environ["TWELVEDATA_API_KEY"]
+    stock_list = ["IBM", "AAPL", "MSFT", "SONY", "EA", "TTWO", "U"]
+    # for stock in stock_list:
+    #     data = stock_quote(stocks_api_url, api_key, stock)
+    #     print(data)
+    data_apple = json.loads(stock_quote(stocks_api_url, api_key, "AAPL"))
+    print(f"Company name: {data_apple["name"]}, Price: {data_apple["close"]} {data_apple["currency"]}")
 
 
 if __name__ == "__main__":

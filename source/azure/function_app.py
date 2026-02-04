@@ -2,7 +2,6 @@ import logging
 import json
 import os
 import azure.functions as func
-from shared.api_yfinance import get_stock
 
 # logger will return the source module name
 logger = logging.getLogger(__name__)
@@ -26,7 +25,8 @@ def get_basic(req: func.HttpRequest) -> str:
     if user:
         return f"Hello, {user}!"
     if list == "games":
-        return json.dumps(get_stock("MSFT"))
+        return "OK game list."
+        # return json.dumps(get_stock("MSFT"))
     else:
         return "Ciao!"
 
