@@ -51,3 +51,8 @@ Define your environment variables here:
 > [!NOTE]
 >**.env** File: Best for project-specific secrets shared with other developers (usually requires dotenv package in code).  
 >**terminal.integrated.env.windows**: Best for local development environment machine-specific paths or variables.  
+
+> [!NOTE]
+>To distinguish between local and remote environment, use a system variable, for example AZURE_ENVIRONMENT:  
+>```az functionapp config appsettings set -g ${{ ... }} -n ${{ ... }} --settings AZURE_ENVIRONMENT="${{ secrets.AZURE_ENVIRONMENT }}"```
+>then in the code, ```os.getenv("AZURE_ENVIRONMENT", "local")```  
