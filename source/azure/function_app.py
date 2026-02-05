@@ -53,7 +53,8 @@ def get_basic(req: func.HttpRequest) -> str:
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC OS type.")
     os_type = os.name
-    az_env = os.environ["AZURE_FUNCTIONS_ENVIRONMENT"]
+    # az_env = os.environ["AZURE_FUNCTIONS_ENVIRONMENT"]
 
     # os.name = "nt" for Windows, "posix" for Linux
-    return json.dumps({"OS type": os_type, "Environment": az_env})
+    # return json.dumps({"OS type": os_type, "Environment": az_env})
+    return json.dumps({"OS type": os_type})
