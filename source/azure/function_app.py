@@ -55,5 +55,6 @@ def get_basic(req: func.HttpRequest) -> str:
     os_type = os.name
     website_id = os.getenv("WEBSITE_INSTANCE_ID", "local")
     website_platform = os.getenv("WEBSITE_PLATFORM_VERSION", "unknown")
+    az_env = os.getenv("AZURE_ENVIRONMENT", "local")
 
-    return json.dumps({"OS type": os_type, "Environment": website_id, "Platform": website_platform})
+    return json.dumps({"OS type": os_type, "Environment": website_id, "Platform": website_platform, "Azure Environment": az_env})

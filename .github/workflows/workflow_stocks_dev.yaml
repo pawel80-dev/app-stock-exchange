@@ -139,7 +139,8 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az functionapp config appsettings set -g ${{ env.AZ_RG }} -n ${{ env.AZ_FUNC_APP }} --settings \
-              TWELVEDATA_API_KEY="${{ secrets.TWELVEDATA_API_KEY }}"
+              TWELVEDATA_API_KEY="${{ secrets.TWELVEDATA_API_KEY }}" \
+              AZURE_ENVIRONMENT="${{ secrets.AZURE_ENVIRONMENT }}"
 
       # Flex Consumption plan, remote-build: true is a MUST!
       - name: 'Azure Function App deployment'
