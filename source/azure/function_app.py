@@ -9,9 +9,6 @@ logger = logging.getLogger(__name__)
 # display logging info level
 logging.basicConfig(level=logging.INFO)
 
-stocks_api_url = "https://api.twelvedata.com"
-api_key = os.environ["TWELVEDATA_API_KEY"]
-
 
 app = func.FunctionApp()
 
@@ -23,6 +20,8 @@ app = func.FunctionApp()
 @app.route(route="stocks", auth_level=func.AuthLevel.ANONYMOUS)
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC app-stock-exchange.")
+    stocks_api_url = "https://api.twelvedata.com"
+    api_key = os.environ["TWELVEDATA_API_KEY"]
     stock = req.params.get("stock")
     user = req.params.get("user")
 
