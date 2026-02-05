@@ -52,6 +52,8 @@ def get_basic(req: func.HttpRequest) -> str:
 @app.route(route="os", auth_level=func.AuthLevel.ANONYMOUS)
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC OS type.")
+    os_type = os.name
+    az_env = os.environ["AZURE_FUNCTIONS_ENVIRONMENT"]
 
     # os.name = "nt" for Windows, "posix" for Linux
-    return json.dumps({f"os": os.name})
+    return json.dumps({f"OS type is": os_type, "Environment": az_env})
