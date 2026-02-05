@@ -21,7 +21,7 @@ app = func.FunctionApp()
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC app-stock-exchange.")
     stocks_api_url = "https://api.twelvedata.com"
-    api_key = os.environ["TWELVEDATA_API_KEY"]
+    api_key = os.getenv("TWELVEDATA_API_KEY")
     stock = req.params.get("stock")
     user = req.params.get("user")
 
@@ -48,14 +48,14 @@ def get_basic(req: func.HttpRequest) -> str:
 
 
 # route parameter is changed: api/{functionname} to api/os
-@app.function_name(name="HttpTrigger-api-os")
-@app.route(route="os", auth_level=func.AuthLevel.ANONYMOUS)
+@app.function_name(name="HttpTrigger-api-env")
+@app.route(route="env", auth_level=func.AuthLevel.ANONYMOUS)
 def get_basic(req: func.HttpRequest) -> str:
-    logger.info("AZ-FUNC OS type.")
+    logger.info("AZ-FUNC OS/Environment type.")
     os_type = os.name
-    # az_env = os.environ["AZURE_FUNCTIONS_ENVIRONMENT"]
-    az_website_id = os.environ.get("WEBSITE_INSTANCE_ID", "local_env")
+    website_id = os.getenv("WEBSITE_INSTANCE_ID")
 
-    # os.name = "nt" for Windows, "posix" for Linux
-    # return json.dumps({"OS type": os_type, "Environment": az_env})
-    return json.dumps({"OS type": os_type, "Website ID": az_website_id})
+    if website_id is not None:
+        return json.dumps({"OS type": os_type, "Environment": website_id})
+    else:
+        return json.dumps({"OS type": os_type, "Environment": "local"})
