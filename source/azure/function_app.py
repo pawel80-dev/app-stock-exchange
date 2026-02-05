@@ -28,10 +28,11 @@ def get_basic(req: func.HttpRequest) -> str:
 
     if user:
         return f"Ciao {user}, come stai?"
-    if stock == "ms":
+    if stock:
         # data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
         # return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
-        data = stock_quote(stocks_api_url, api_key, "MSFT")
+        data = stock_quote(stocks_api_url, api_key, stock)
+        # return data["fifty_two_week"]["high_change"]
         return data
     else:
         return "Ciao!"

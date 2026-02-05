@@ -62,6 +62,27 @@ def stock_quote(stock_url: str, api_key: str, symbol: str) -> str:
         logger.info(response.json()["message"])
 
 
+def stock_price(stock_url: str, api_key: str, symbol: str) -> str:
+    api = f"/price?symbol={symbol}"
+    url = stock_url + api
+    headers = {
+        "Authorization": f"apikey {api_key}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(
+        url=url,
+        headers=headers,
+        verify=False
+    )
+    if response.status_code == 200:
+        logger.info(f"Stock {symbol} latest price successfully retrieved.")
+        # return json.dumps(response.json(), indent=4)
+        return json.dumps(response.json())
+    else:
+        logger.info(f"Failed to retrieved {symbol} stock price: {response.json()["code"]}")
+        logger.info(response.json()["message"])
+
+
 def time_series(stock_url: str, api_key: str, symbol: str, interval: str, start_date: str, end_date: str) -> str:
     api = f"/time_series?symbol={symbol}&interval={interval}&start_date={start_date}&end_date={end_date}"
     url = stock_url + api
@@ -93,9 +114,11 @@ def main() -> None:
     # for stock in stock_list:
     #     data = stock_quote(stocks_api_url, api_key, stock)
     #     print(data)
+    stock_price_data = stock_price(stocks_api_url, api_key, "MSFT")
     data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
-    # print(data)
-    print(f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}")
+    print(data)
+    print(stock_price_data)
+    # print(f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}")
     # time_series_data = json.loads(time_series(stocks_api_url, api_key, "MSFT", "1month"))
     # time_series_data = time_series(stocks_api_url, api_key, "MSFT", "1month", "2020-01-01", "2026-01-01")
     # print(time_series_data)
