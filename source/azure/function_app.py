@@ -27,7 +27,7 @@ def get_basic(req: func.HttpRequest) -> str:
 
     if user:
         return f"Ciao {user}, come stai?"
-    if stock:
+    if stock and api_key:
         # data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
         # return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
         data = stock_quote(stocks_api_url, api_key, stock)
@@ -53,9 +53,7 @@ def get_basic(req: func.HttpRequest) -> str:
 def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC OS/Environment type.")
     os_type = os.name
-    website_id = os.getenv("WEBSITE_INSTANCE_ID")
+    website_id = os.getenv("WEBSITE_INSTANCE_ID", "local")
+    website_platform = os.getenv("WEBSITE_PLATFORM_VERSION", "unknown")
 
-    if website_id is not None:
-        return json.dumps({"OS type": os_type, "Environment": website_id})
-    else:
-        return json.dumps({"OS type": os_type, "Environment": "local"})
+    return json.dumps({"OS type": os_type, "Environment": website_id, "Platform": website_platform})
