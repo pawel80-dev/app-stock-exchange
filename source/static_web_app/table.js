@@ -1,7 +1,8 @@
 var array = [
     ['Car', 'Top Speed', 'Price'],
     ['Chevrolet', '120mph', '$10,000'],
-    ['Pontiac', '140pmh', '$20,000']
+    ['Pontiac', '140pmh', '$20,000'],
+    ['BMW', '160mph', '$30,000']
   ] // Creating a data array which a loop will source from
 
 var table = document.createElement('table');
