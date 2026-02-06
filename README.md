@@ -17,7 +17,7 @@ Issues:
 <br>
 
 > [!NOTE]
->To distinguish between local and remote environment, use a system variable, for example AZURE_ENVIRONMENT:
+>To distinguish between local and remote environment, use a system variable, for example AZURE_ENVIRONMENT:  
 >```az functionapp config appsettings set -g ${{ ... }} -n ${{ ... }} --settings AZURE_ENVIRONMENT="${{ secrets.AZURE_ENVIRONMENT }}"```  
 >then in the code, ```os.getenv("AZURE_ENVIRONMENT", "local")```  
 

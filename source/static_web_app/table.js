@@ -3,7 +3,39 @@ var array = [
     ['Chevrolet', '120mph', '$10,000'],
     ['Pontiac', '140pmh', '$20,000'],
     ['BMW', '160mph', '$30,000']
-  ] // Creating a data array which a loop will source from
+  ]
+
+// (async function() {
+//     const { text } = await( await fetch(`/api/message`)).json();
+//     document.querySelector('#name').textContent = text;
+// }());
+
+// fetch(url)
+//   .then(response => response.json())  
+//   .then(data => console.log(data))    
+//   .catch(error => console.error(error))
+
+// Async/await is just syntactic sugar for promises
+// async function getText(file) {
+//   let myObject = await fetch(file);
+//   let myText = await myObject.text();
+//   myDisplay(myText);
+// }
+
+async function fetchData() {
+    try {
+        const response = await fetch('/api/message');
+        if (!response.ok) {
+            throw new Error('API call was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+fetchData();
 
 var table = document.createElement('table');
 document.body.appendChild(table); // Drew the main table node on the document

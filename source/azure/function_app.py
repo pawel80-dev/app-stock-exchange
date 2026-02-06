@@ -24,15 +24,20 @@ def get_basic(req: func.HttpRequest) -> str:
     api_key = os.getenv("TWELVEDATA_API_KEY")
     stock = req.params.get("stock")
     user = req.params.get("user")
+    stocks = []
+    stock_list = ["NVDA", "MSFT", "AAPL", "GOOG", "AMZN", "META", "AVGO", "TSLA"]
 
     if user:
         return f"Ciao {user}, come stai?"
-    if stock and api_key:
+    if stock == "top8" and api_key:
+        for stock in stock_list:
+            data = json.loads(stock_quote(stocks_api_url, api_key, stock))
+            stocks.append(data)
         # data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
         # return f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}"
-        data = stock_quote(stocks_api_url, api_key, stock)
+        # data = stock_quote(stocks_api_url, api_key, stock)
         # return data["fifty_two_week"]["high_change"]
-        return data
+        return json.dumps(stocks, indent=4)
     else:
         return "Ciao!"
 

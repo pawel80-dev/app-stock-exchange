@@ -110,14 +110,14 @@ def time_series(stock_url: str, api_key: str, symbol: str, interval: str, start_
 def main() -> None:
     stocks_api_url = "https://api.twelvedata.com"
     api_key = os.environ["TWELVEDATA_API_KEY"]
-    stock_list = ["IBM", "AAPL", "MSFT", "SONY", "EA", "TTWO", "U"]
-    # for stock in stock_list:
-    #     data = stock_quote(stocks_api_url, api_key, stock)
-    #     print(data)
-    stock_price_data = stock_price(stocks_api_url, api_key, "MSFT")
-    data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
-    print(data)
-    print(stock_price_data)
+    stock_list = ["NVDA", "MSFT", "AAPL", "GOOG", "AMZN", "META", "AVGO", "TSLA"]
+    for stock in stock_list:
+        data = json.loads(stock_quote(stocks_api_url, api_key, stock))
+        print(data)
+    # stock_price_data = stock_price(stocks_api_url, api_key, "MSFT")
+    # data = json.loads(stock_quote(stocks_api_url, api_key, "MSFT"))
+    # print(data)
+    # print(stock_price_data)
     # print(f"Company name: {data["name"]}, Price: {data["close"]} {data["currency"]}")
     # time_series_data = json.loads(time_series(stocks_api_url, api_key, "MSFT", "1month"))
     # time_series_data = time_series(stocks_api_url, api_key, "MSFT", "1month", "2020-01-01", "2026-01-01")
