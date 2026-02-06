@@ -14,6 +14,19 @@ Issues:
 - Failed to containerized Azure Function (no Selenium): --kind functionapp
 - Failed to use yfinance API in Azure Function, Google protobuf version mismatch: remove module cache for google._upb but failed with 'google', Language Worker Process exited
 
+<br>
+
+> [!NOTE]
+>To distinguish between local and remote environment, use a system variable, for example AZURE_ENVIRONMENT:  
+>```az functionapp config appsettings set -g ${{ ... }} -n ${{ ... }} --settings AZURE_ENVIRONMENT="${{ secrets.AZURE_ENVIRONMENT }}"```  
+>then in the code, ```os.getenv("AZURE_ENVIRONMENT", "local")```  
+
+> [!NOTE]
+>Import environment variables:  
+>- Powershell/Bash script  
+>- **.env** File: Best for project-specific secrets shared with other developers (usually requires dotenv package in code)  
+>- **terminal.integrated.env.windows (terminal.integrated.env.linux)**: Best for local development environment machine-specific paths or variables  
+
 
 ### Set environment variables via Powershell code (Windows 11):
 Temporary in a current Powershell session:  
@@ -31,7 +44,7 @@ Remove system variable:
 Display system variables via Powershell:  
 ```Get-ChildItem Env:```
 
-### Set environment variables via VSC terminal.integrated.env.windows:
+### Set environment variables via VSC terminal.integrated.env.windows (or terminal.integrated.env.linux):
 File -> Preferences -> Settings  
 Find @id:terminal.integrated.env.windows  
 Select which config you would like to change - User’s or Worspace (recommended)  
@@ -45,14 +58,3 @@ Define your environment variables here:
     }
 }
 ```
-
-<br>
-
-> [!NOTE]
->**.env** File: Best for project-specific secrets shared with other developers (usually requires dotenv package in code).  
->**terminal.integrated.env.windows**: Best for local development environment machine-specific paths or variables.  
-
-> [!NOTE]
->To distinguish between local and remote environment, use a system variable, for example AZURE_ENVIRONMENT:  
->```az functionapp config appsettings set -g ${{ ... }} -n ${{ ... }} --settings AZURE_ENVIRONMENT="${{ secrets.AZURE_ENVIRONMENT }}"```
->then in the code, ```os.getenv("AZURE_ENVIRONMENT", "local")```  
