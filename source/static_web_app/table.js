@@ -5,6 +5,8 @@ var array = [
     ['BMW', '160mph', '$30,000']
   ]
 
+console.log('Array of arrays: ', array);
+
 // (async function() {
 //     const { text } = await( await fetch(`/api/message`)).json();
 //     document.querySelector('#name').textContent = text;
@@ -37,6 +39,8 @@ async function fetchData() {
 
 fetchData();
 
+console.log('Before TABLE');
+
 var table = document.createElement('table');
 document.body.appendChild(table); // Drew the main table node on the document
 
@@ -48,3 +52,5 @@ array.forEach(function(row) {
     td.innerText = column; // Take string from placeholder variable and append it to <tr> node
   });
 });
+
+console.log('After TABLE');
