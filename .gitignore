@@ -235,7 +235,7 @@ __queuestorage*
 ~$*.xlsx
 
 ############################# Local data ##############################
-# local.settings.json
+local.settings.json
 node_modules
 package-lock.json
 package.json
