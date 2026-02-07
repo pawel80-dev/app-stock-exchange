@@ -20,7 +20,7 @@ on:
 env:
   AZ_FUNC_ARTIFACT: 'fa-py-code-artifact'
   AZ_FUNC_APP: 'func-app-v2-dev' # set this to your function app name
-  AZ_FUNC_APP_PROJECT_PATH: 'source/azure'
+  AZ_FUNC_APP_PROJECT_PATH: 'api'
   AZ_RG: 'RG-TF-DEV-FUNC'
 
 # In GitHub workflow, you should set permissions: with id-token: write at workflow level or job level 
@@ -96,7 +96,7 @@ jobs:
       - name: 'Create AZ artifact folder'
         run: |
           mkdir artifact_source
-          # cp source/azure/shared/*.* artifact_source/
+          # cp api/*.* artifact_source/
           cp ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/*.* artifact_source/
           cp -r ${{ env.AZ_FUNC_APP_PROJECT_PATH }}/shared artifact_source/shared/
 
