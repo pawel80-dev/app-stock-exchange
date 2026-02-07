@@ -16,7 +16,7 @@
 
     <script>
     (async function() {
-        const { text } = await( await fetch("https://func-app-v2-dev.azurewebsites.net/api/message")).json();
+        const { text } = await( await fetch("/api/message")).json();
         document.querySelector("#name").textContent = text;
     }());
     </script>

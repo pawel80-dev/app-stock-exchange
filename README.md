@@ -60,3 +60,12 @@ Define your environment variables here:
     }
 }
 ```
+
+<br>
+
+Configure Azure Static Web App:  
+https://learn.microsoft.com/en-us/azure/static-web-apps/configuration#platform  
+API support in Azure Static Web Apps with Azure Functions:  
+https://learn.microsoft.com/en-us/azure/static-web-apps/apis-functions?source=recommendations  
+Build configuration for Azure Static Web Apps:  
+https://learn.microsoft.com/en-us/azure/static-web-apps/build-configuration?tabs=identity&pivots=github-actions  
