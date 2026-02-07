@@ -236,3 +236,6 @@ __queuestorage*
 
 ############################# Local data ##############################
 # local.settings.json
+node_modules
+package-lock.json
+package.json

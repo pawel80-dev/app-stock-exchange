@@ -49,7 +49,7 @@ def get_basic(req: func.HttpRequest) -> str:
     logger.info("AZ-FUNC TEST API message.")
 
     # return "Hello, from the stocks API!"
-    return json.dumps({"text": "Hello, from the stocks API!"})
+    return json.dumps({"text": "Ciao, from the stocks API!"})
 
 
 # route parameter is changed: api/{functionname} to api/os
