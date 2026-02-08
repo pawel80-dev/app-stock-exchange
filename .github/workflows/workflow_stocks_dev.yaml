@@ -159,7 +159,7 @@ jobs:
         id: deploy-to-function-app
         with:
           app-name: ${{ env.AZ_FUNC_APP }}
-          # For Flex Consumption plan, remote-build: true is a MUST!
+          # remote-build: true                    # needed for Flex Consumption plan
           # Do not use below options for Flex Consumption plan
           # scm-do-build-during-deployment: true  # needed for Dedicated plans
           # enable-oryx-build: true               # needed for Dedicated plans
