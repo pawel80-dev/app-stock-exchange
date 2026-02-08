@@ -4,6 +4,6 @@
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
   },
   "platform": {
-    "apiRuntime": "python:3.11"
+    "apiRuntime": "python:3.10"
   }
 }

@@ -69,3 +69,17 @@ API support in Azure Static Web Apps with Azure Functions:
 https://learn.microsoft.com/en-us/azure/static-web-apps/apis-functions?source=recommendations  
 Build configuration for Azure Static Web Apps:  
 https://learn.microsoft.com/en-us/azure/static-web-apps/build-configuration?tabs=identity&pivots=github-actions  
+
+<br>
+
+Local Static Web App:  
+npx @azure/static-web-apps-cli start --api-location /api  
+Local Azure Function:  
+func host start --script-root Path-to-local-code\api\  
+
+<br>
+
+API support in Azure Static Web Apps with Azure Functions restrictions:
+- Managed functions: By default, the API of a static web app is an Azure Functions application managed and deployed by Azure Static Web Apps associated with some restrictions.
+- supported Azure Function hosting plans: Consumption ?
+- The Azure Functions app must either be in Python 3.8, Python 3.9, or Python 3.10
