@@ -2,7 +2,7 @@ import logging
 import json
 import os
 import azure.functions as func
-from api_twelvedata import stock_quote
+# from api_twelvedata import stock_quote
 
 # logger will return the source module name
 logger = logging.getLogger(__name__)
