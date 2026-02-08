@@ -69,6 +69,8 @@ API support in Azure Static Web Apps with Azure Functions:
 https://learn.microsoft.com/en-us/azure/static-web-apps/apis-functions?source=recommendations  
 Build configuration for Azure Static Web Apps:  
 https://learn.microsoft.com/en-us/azure/static-web-apps/build-configuration?tabs=identity&pivots=github-actions  
+Build your Python Azure Functions apps:  
+https://learn.microsoft.com/en-us/azure/azure-functions/python-build-options  
 
 <br>
 
