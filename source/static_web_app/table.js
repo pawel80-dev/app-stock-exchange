@@ -26,7 +26,7 @@ console.log('Array of arrays: ', array);
 
 async function fetchData() {
     try {
-        const response = await fetch('/api/message');
+        const response = await fetch(`/api/message`);
         if (!response.ok) {
             throw new Error('API call was not ok');
         }
